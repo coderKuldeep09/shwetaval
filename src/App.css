@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 
 body, html { 
   margin: 0; padding: 0; background: #000; color: white; 
@@ -172,6 +173,7 @@ body, html {
   padding-right: 10px;
   scrollbar-width: thin;
   scrollbar-color: #ff007f transparent;
+
 }
 
 .card-line-container::-webkit-scrollbar {
@@ -188,6 +190,7 @@ body, html {
   line-height: 1.5;
   color: #fff;
   text-align: left; /* Lambe text ke liye left align better hai */
+  font-family: "Courgette", cursive;
 }
 
 /* Card height management */
@@ -204,4 +207,97 @@ body, html {
   z-index: 100;
   position: relative;
   cursor: pointer;
+}
+
+
+/* --- ADVANCED MOBILE RESPONSIVE FIXES --- */
+@media (max-width: 768px) {
+  /* 1. Container and Main Layout */
+  .card-and-note-container { 
+    flex-direction: column; 
+    gap: 15px; 
+    width: 90vw;
+    margin-top: 20px;
+  }
+
+  .beat-container { 
+    flex-direction: column; 
+    text-align: center; 
+    gap: 10px; 
+    width: 100%;
+  }
+
+  /* 2. Beating Heart Size Adjustment */
+  .beating-heart { 
+    font-size: 6rem; /* Thoda chhota kiya taki screen pe fit ho */
+  }
+
+  .romantic-text { 
+    font-size: 1.6rem; 
+    padding: 0 10px;
+  }
+
+  /* 3. Card Sizing - Mobile Screen se bahar na jaye */
+  .premium-glass-card { 
+    width: 85vw !important; 
+    max-width: 320px;
+    padding: 20px; 
+    max-height: 70vh; /* Height limit taki buttons dikhte rahein */
+    overflow-y: auto;
+  }
+
+  /* 4. Text Container - Scrollable Text */
+  .card-line-container {
+    max-height: 150px; /* Text area chhota kiya */
+    font-size: 0.95rem;
+  }
+
+  .card-title {
+    font-size: 2rem;
+  }
+
+  /* 5. Side Note Adjustments */
+  .side-letter-note { 
+    width: 80vw; 
+    font-size: 0.85rem;
+    padding: 15px;
+  }
+
+  /* 6. Buttons - Taki ungli se click karne mein aasani ho */
+  .btn-row { 
+    flex-direction: column; 
+    width: 100%; 
+    gap: 10px;
+  }
+
+  .yes-btn-glass, .no-btn-glass { 
+    width: 100%; 
+    padding: 15px; /* Touch target bada kiya */
+    font-size: 1rem;
+  }
+
+  /* 7. Typography Fixes */
+  .neon-text { 
+    font-size: 2.2rem; 
+    line-height: 1.2;
+  }
+  
+  .final-sub-text {
+    font-size: 1.4rem;
+  }
+
+  /* 8. Floating Stickers */
+  .sharp-sticker {
+    font-size: 2rem;
+  }
+}
+
+/* Extra small devices ke liye (chhoti screen wale phones) */
+@media (max-width: 380px) {
+  .premium-glass-card {
+    padding: 15px;
+  }
+  .card-title {
+    font-size: 1.8rem;
+  }
 }
