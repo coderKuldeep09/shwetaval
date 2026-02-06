@@ -3,7 +3,7 @@
 
 body, html { 
   margin: 0; padding: 0; background: #000; color: white; 
-  font-family: 'Poppins', sans-serif; overflow: hidden; 
+  font-family: 'Poppins', sans-serif; overflow: auto; 
   width: 100vw; height: 100vh; touch-action: manipulation;
 }
 
@@ -94,7 +94,7 @@ body, html {
   width: 100vw;
   height: 100vh;
   background: radial-gradient(circle at center, #1a0a1a, #000);
-  overflow: hidden;
+  overflow: auto;
   position: relative;
   color: white;
 }
@@ -140,7 +140,7 @@ body, html {
   font-size: 1.1rem;
   line-height: 1.6;
   max-height: 250px; /* Text ki height fix kar di */
-  overflow-y: auto;  /* Zyada text hone par scroll bar aa jayega */
+  /* overflow-y: auto;  Zyada text hone par scroll bar aa jayega */
   padding: 10px;
   margin: 15px 0;
   text-align: left; /* Lambe messages left-align mein zyada padhne layak hote hain */
