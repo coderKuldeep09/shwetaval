@@ -45,8 +45,14 @@ body, html {
 
 .msg-btn-mini {
   background: linear-gradient(45deg, #ff007f, #ff4d6d); border: none; color: white;
+  width: 50%;
+  
   padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; margin-top: 15px; cursor: pointer;
   animation: pulse-glow 2s infinite;
+}
+.proposal-btn-container{
+  display: flex; justify-content: center; align-items: center;
+
 }
 
 @keyframes pulse-glow { 
@@ -68,7 +74,7 @@ body, html {
 .dancing-font { font-family: 'Dancing Script', cursive; }
 
 .blastCanvas { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
-.heart-btn-main { font-size: 8rem; cursor: pointer; filter: drop-shadow(0 0 30px #ff007f); }
+.heart-btn-main { position: fixed;font-size: 8rem; cursor: pointer; filter: drop-shadow(0 0 30px #ff007f); }
 .click-hint { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: #ff007f; margin-bottom: 20px; text-align: center; }
 
 /* MOBILE RESPONSIVE */
@@ -128,3 +134,74 @@ body, html {
   max-width: 400px;
 }
 
+/* Card ke andar wale text area ko limit karne ke liye */
+.card-line {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-height: 250px; /* Text ki height fix kar di */
+  overflow-y: auto;  /* Zyada text hone par scroll bar aa jayega */
+  padding: 10px;
+  margin: 15px 0;
+  text-align: left; /* Lambe messages left-align mein zyada padhne layak hote hain */
+  scrollbar-width: thin; /* Firefox ke liye */
+  scrollbar-color: #ff007f transparent;
+}
+
+/* Scrollbar styling for Chrome/Safari */
+.card-line::-webkit-scrollbar {
+  width: 5px;
+}
+.card-line::-webkit-scrollbar-thumb {
+  background: #ff007f;
+  border-radius: 10px;
+}
+
+/* First meet ke liye thoda special card sizing */
+.premium-glass-card {
+  max-height: 85vh; /* Mobile screen se bahar nahi jayega */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* "First Meet" wale text ko manage karne ke liye */
+.card-line-container {
+  max-height: 200px; /* Text area ki height limit */
+  overflow-y: auto;
+  margin: 15px 0;
+  padding-right: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #ff007f transparent;
+}
+
+.card-line-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.card-line-container::-webkit-scrollbar-thumb {
+  background: #ff007f;
+  border-radius: 10px;
+}
+
+.card-line {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #fff;
+  text-align: left; /* Lambe text ke liye left align better hai */
+}
+
+/* Card height management */
+.premium-glass-card {
+  max-height: 90vh;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* No Button ensure it stays clickable but moves */
+.no-btn-glass {
+  z-index: 100;
+  position: relative;
+  cursor: pointer;
+}
