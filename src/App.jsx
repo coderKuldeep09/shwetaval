@@ -12,21 +12,21 @@ const data = [
   { q: "🧸 Teddy Day", line: "Ye teddy meri yaad dilayega jab main paas nahi hounga.", sticker: "🧸" },
   { q: "🤗 Hug Day", line: "Tumhara hug mera safe place hai.", sticker: "🫂" },
   { q: "💋 Kiss Day", line: "Ek ehsaas jo hamesha dil mein reh jata hai.", sticker: "💋" },
-  { q: "💖 Valentine", line: "Will you be my Valentine, Shweta , meri jaan , meri hapiness, meri dunia my wify my everything you are.. will you? ❤️", sticker: "💝", hasNoBtn: true }
+  { q: "💖 Valentine", line: "Will you be my Valentine, Shweta, meri jaan, meri happiness, meri dunia... will you? ❤️", sticker: "💝", hasNoBtn: true }
 ];
 
 const FloatingStickers = ({ emoji }) => (
   <div className="sticker-layer">
-    {[...Array(35)].map((_, i) => (
+    {[...Array(20)].map((_, i) => (
       <motion.div key={i} className="sharp-sticker"
         initial={{ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, opacity: 0 }}
         animate={{ 
           x: [null, Math.random() * window.innerWidth], 
           y: [null, Math.random() * window.innerHeight], 
-          opacity: [0, 0.8, 0],
+          opacity: [0, 0.6, 0],
           rotate: [0, 360] 
         }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
       >{emoji}</motion.div>
     ))}
   </div>
@@ -40,13 +40,29 @@ export default function App() {
   const [showNote, setShowNote] = useState(false);
   const canvasRef = useRef(null);
 
-  const moveNo = () => {
-    setPos({ x: Math.random() * 260 - 130, y: Math.random() * 260 - 130 });
+  // Heart Rain Function
+  const createHeartRain = () => {
+    for (let j = 0; j < 8; j++) {
+      const heart = document.createElement("div");
+      heart.innerHTML = "❤️";
+      heart.className = "heart-particle";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.top = "-5vh";
+      heart.style.fontSize = Math.random() * 15 + 15 + "px";
+      heart.style.animationDuration = Math.random() * 2 + 1.5 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 2500);
+    }
+  };
+
+  const moveNo = (e) => {
+    e.stopPropagation();
+    setPos({ x: Math.random() * 200 - 100, y: Math.random() * 200 - 100 });
   };
 
   useEffect(() => { setPos({ x: 0, y: 0 }); setShowNote(false); }, [i]);
 
-  // ENERGETIC FIREWORKS
+  // Skyshot (Fireworks)
   useEffect(() => {
     if (done && canvasRef.current) {
       const canvas = canvasRef.current;
@@ -56,7 +72,7 @@ export default function App() {
       class Rocket {
         constructor() {
           this.x = Math.random() * canvas.width; this.y = canvas.height;
-          this.speed = 8; this.targetY = Math.random() * (canvas.height * 0.4);
+          this.speed = 7; this.targetY = Math.random() * (canvas.height * 0.4);
           this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
         }
         update() { this.y -= this.speed; }
@@ -66,15 +82,15 @@ export default function App() {
         constructor(x, y, color) {
           this.x = x; this.y = y; this.color = color;
           this.angle = Math.random() * Math.PI * 2; this.velocity = Math.random() * 5 + 3;
-          this.life = 120; this.friction = 0.96; this.gravity = 0.15;
+          this.life = 100; this.friction = 0.95; this.gravity = 0.12;
         }
-        update() { this.velocity *= this.friction; this.x += Math.cos(this.angle) * this.velocity; this.y += Math.sin(this.angle) * this.velocity + this.gravity; this.life -= 1.8; }
-        draw() { ctx.globalAlpha = this.life / 120; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2); ctx.fill(); }
+        update() { this.velocity *= this.friction; this.x += Math.cos(this.angle) * this.velocity; this.y += Math.sin(this.angle) * this.velocity + this.gravity; this.life -= 1.5; }
+        draw() { ctx.globalAlpha = this.life / 100; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2); ctx.fill(); }
       }
       function animate() {
         ctx.fillStyle = "rgba(0, 0, 0, 0.2)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        if (Math.random() < 0.08) rockets.push(new Rocket());
-        rockets.forEach((r, idx) => { r.update(); r.draw(); if (r.y <= r.targetY) { for (let j = 0; j < 60; j++) particles.push(new Particle(r.x, r.y, r.color)); rockets.splice(idx, 1); } });
+        if (Math.random() < 0.06) rockets.push(new Rocket());
+        rockets.forEach((r, idx) => { r.update(); r.draw(); if (r.y <= r.targetY) { for (let j = 0; j < 50; j++) particles.push(new Particle(r.x, r.y, r.color)); rockets.splice(idx, 1); } });
         particles.forEach((p, idx) => { p.update(); p.draw(); if (p.life <= 0) particles.splice(idx, 1); });
         requestAnimationFrame(animate);
       }
@@ -83,13 +99,13 @@ export default function App() {
   }, [done]);
 
   return (
-    <div className="main-container">
+    <div className="main-container" onClick={createHeartRain}>
       <AnimatePresence mode="wait">
         {stage === "intro" && (
           <motion.div key="intro" className="full-screen" exit={{ opacity: 0, scale: 0.8 }}>
             <div className="intro-content">
               <motion.h2 className="click-hint">Tap my Heart Shweta ❤️</motion.h2>
-              <motion.div className="heart-btn-main" onClick={() => setStage("heartbeat")} animate={{ scale: [1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}>❤️</motion.div>
+              <motion.div className="heart-btn-main hover-pop" onClick={() => setStage("heartbeat")} animate={{ scale: [1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}>❤️</motion.div>
             </div>
           </motion.div>
         )}
@@ -100,7 +116,7 @@ export default function App() {
               <div className="romantic-text">
                 <TypeAnimation sequence={['Har dhadkan mein tumhara naam hai...', 1000, 'Shweta, tum meri poori duniya ho...', 1000, 'Enter into my heart? ❤️', 1500]} speed={50} repeat={Infinity} />
                 <br />
-                <button className="start-btn-glass" onClick={() => setStage("valentine")}>Hamara Safar Dekho 💌</button>
+                <button className="start-btn-glass hover-glow" onClick={() => setStage("valentine")}>Hamara Safar Dekho 💌</button>
               </div>
               <motion.div className="beating-heart" animate={{ scale: [1, 1.15, 1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 1.8 }}>❤️</motion.div>
             </div>
@@ -120,13 +136,13 @@ export default function App() {
                     <p className="card-line">{data[i].line}</p>
                     
                     {data[i].isProposal && (
-                      <button className="msg-btn-mini" onClick={() => setShowNote(!showNote)}>
+                      <button className="msg-btn-mini hover-glow" onClick={(e) => { e.stopPropagation(); setShowNote(!showNote); }}>
                         {showNote ? "Close Letter ❌" : "Read My Heart 💌"}
                       </button>
                     )}
 
                     <div className="btn-row">
-                      <button className="yes-btn-glass" onClick={() => { if (i < data.length - 1) setI(i + 1); else setDone(true); }}>Yes Forever 💖</button>
+                      <button className="yes-btn-glass hover-glow" onClick={(e) => { e.stopPropagation(); if (i < data.length - 1) setI(i + 1); else setDone(true); }}>Yes Forever 💖</button>
                       {data[i].hasNoBtn && (
                         <motion.button className="no-btn-glass" onMouseEnter={moveNo} animate={{ x: pos.x, y: pos.y }}>No 😜</motion.button>
                       )}
@@ -135,8 +151,8 @@ export default function App() {
                 ) : (
                   <div className="final-msg">
                     <h1 className="neon-text">Hamesha <span>Sath!</span></h1>
-                    <p className="dancing-font" style={{fontSize: '2rem', color: '#ffb7c5'}}>Happy Valentine's Day Shweta.<br>Iam Only Yours </br> ❤️</p>
-                    <p style={{marginTop: '10px'}}>Tum meri sabse pyari haqeeqat ho.</p>
+                    <p className="dancing-font final-sub-text">Happy Valentine's Day Shweta.<br />I am Only Yours ❤️</p>
+                    <p style={{marginTop: '15px', opacity: 0.8}}>Tum meri sabse pyari haqeeqat ho.</p>
                   </div>
                 )}
               </motion.div>
