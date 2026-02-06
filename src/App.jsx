@@ -40,7 +40,6 @@ export default function App() {
   const [showNote, setShowNote] = useState(false);
   const canvasRef = useRef(null);
 
-  // Heart Rain Function - Optimized to prevent DOM bloat
   const createHeartRain = useCallback(() => {
     const heart = document.createElement("div");
     heart.innerHTML = "❤️";
@@ -48,40 +47,35 @@ export default function App() {
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.top = "-5vh";
     document.body.appendChild(heart);
-    
-    const timer = setTimeout(() => {
-      if (heart && heart.parentNode) heart.remove();
-    }, 2500);
-    
-    return () => clearTimeout(timer);
+    setTimeout(() => { if (heart && heart.parentNode) heart.remove(); }, 2500);
   }, []);
 
   const moveNo = (e) => {
-    e.stopPropagation();
-    setPos({ x: Math.random() * 200 - 100, y: Math.random() * 200 - 100 });
-  };
+  e.stopPropagation();
+  
+  // Ab range sirf 150px se 200px tak hai, jisse wo card ke aas-paas hi rahega
+  const range = 180; 
+  const randomX = (Math.random() * (range * 2)) - range;
+  const randomY = (Math.random() * (range * 2)) - range;
+  
+  setPos({ x: randomX, y: randomY });
+};
 
   useEffect(() => { 
     setPos({ x: 0, y: 0 }); 
     setShowNote(false); 
   }, [i]);
 
-  // Fireworks Animation - Fixed BSS Memory Error
+  // Fireworks logic (Keeping your original working logic)
   useEffect(() => {
     if (done && canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
       let animationFrameId;
-
-      const resizeCanvas = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      };
+      const resizeCanvas = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
-
-      let particles = []; 
-      let rockets = [];
+      let particles = []; let rockets = [];
 
       class Rocket {
         constructor() {
@@ -92,12 +86,7 @@ export default function App() {
           this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
         }
         update() { this.y -= this.speed; }
-        draw() { 
-          ctx.fillStyle = "white"; 
-          ctx.beginPath(); 
-          ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); 
-          ctx.fill(); 
-        }
+        draw() { ctx.fillStyle = "white"; ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); ctx.fill(); }
       }
 
       class Particle {
@@ -105,31 +94,15 @@ export default function App() {
           this.x = x; this.y = y; this.color = color;
           this.angle = Math.random() * Math.PI * 2; 
           this.velocity = Math.random() * 5 + 2;
-          this.life = 100; 
-          this.friction = 0.95; 
-          this.gravity = 0.1;
+          this.life = 100; this.friction = 0.95; this.gravity = 0.1;
         }
-        update() { 
-          this.velocity *= this.friction; 
-          this.x += Math.cos(this.angle) * this.velocity; 
-          this.y += Math.sin(this.angle) * this.velocity + this.gravity; 
-          this.life -= 1.2; 
-        }
-        draw() { 
-          ctx.globalAlpha = this.life / 100; 
-          ctx.fillStyle = this.color; 
-          ctx.beginPath(); 
-          ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); 
-          ctx.fill(); 
-        }
+        update() { this.velocity *= this.friction; this.x += Math.cos(this.angle) * this.velocity; this.y += Math.sin(this.angle) * this.velocity + this.gravity; this.life -= 1.2; }
+        draw() { ctx.globalAlpha = this.life / 100; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); ctx.fill(); }
       }
 
       const animate = () => {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.2)"; 
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+        ctx.fillStyle = "rgba(0, 0, 0, 0.2)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (Math.random() < 0.05) rockets.push(new Rocket());
-        
         rockets.forEach((r, idx) => {
           r.update(); r.draw();
           if (r.y <= r.targetY) {
@@ -137,21 +110,11 @@ export default function App() {
             rockets.splice(idx, 1);
           }
         });
-
-        particles.forEach((p, idx) => {
-          p.update(); p.draw();
-          if (p.life <= 0) particles.splice(idx, 1);
-        });
-
+        particles.forEach((p, idx) => { p.update(); p.draw(); if (p.life <= 0) particles.splice(idx, 1); });
         animationFrameId = requestAnimationFrame(animate);
       };
-
       animate();
-
-      return () => {
-        cancelAnimationFrame(animationFrameId);
-        window.removeEventListener('resize', resizeCanvas);
-      };
+      return () => { cancelAnimationFrame(animationFrameId); window.removeEventListener('resize', resizeCanvas); };
     }
   }, [done]);
 
@@ -190,18 +153,29 @@ export default function App() {
                 {!done ? (
                   <>
                     <h2 className="card-title">{data[i].q}</h2>
-                    <p className="card-line">{data[i].line}</p>
+                    {/* Yahan scroll area add kiya hai */}
+                    <div className="card-line-container">
+                       <p className="card-line">{data[i].line}</p>
+                    </div>
                     
                     {data[i].isProposal && (
+                      <div className="proposal-btn-container">
                       <button className="msg-btn-mini hover-glow" onClick={(e) => { e.stopPropagation(); setShowNote(!showNote); }}>
                         {showNote ? "Close Letter ❌" : "Read My Heart 💌"}
                       </button>
+                      </div>
                     )}
 
                     <div className="btn-row">
                       <button className="yes-btn-glass hover-glow" onClick={(e) => { e.stopPropagation(); if (i < data.length - 1) setI(i + 1); else setDone(true); }}>Yes Forever 💖</button>
                       {data[i].hasNoBtn && (
-                        <motion.button className="no-btn-glass" onMouseEnter={moveNo} animate={{ x: pos.x, y: pos.y }}>No 😜</motion.button>
+                        <motion.button 
+                          className="no-btn-glass" 
+                          onMouseEnter={moveNo} 
+                          onClick={moveNo}
+                          animate={{ x: pos.x, y: pos.y }}
+                          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                        >No 😜</motion.button>
                       )}
                     </div>
                   </>
