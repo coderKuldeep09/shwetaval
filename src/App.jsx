@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TypeAnimation } from 'react-type-animation';
 import "./App.css";
@@ -17,7 +17,7 @@ const data = [
 
 const FloatingStickers = ({ emoji }) => (
   <div className="sticker-layer">
-    {[...Array(20)].map((_, i) => (
+    {[...Array(15)].map((_, i) => (
       <motion.div key={i} className="sharp-sticker"
         initial={{ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, opacity: 0 }}
         animate={{ 
@@ -40,61 +40,118 @@ export default function App() {
   const [showNote, setShowNote] = useState(false);
   const canvasRef = useRef(null);
 
-  // Heart Rain Function
-  const createHeartRain = () => {
-    for (let j = 0; j < 8; j++) {
-      const heart = document.createElement("div");
-      heart.innerHTML = "❤️";
-      heart.className = "heart-particle";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.top = "-5vh";
-      heart.style.fontSize = Math.random() * 15 + 15 + "px";
-      heart.style.animationDuration = Math.random() * 2 + 1.5 + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 2500);
-    }
-  };
+  // Heart Rain Function - Optimized to prevent DOM bloat
+  const createHeartRain = useCallback(() => {
+    const heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.className = "heart-particle";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = "-5vh";
+    document.body.appendChild(heart);
+    
+    const timer = setTimeout(() => {
+      if (heart && heart.parentNode) heart.remove();
+    }, 2500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const moveNo = (e) => {
     e.stopPropagation();
     setPos({ x: Math.random() * 200 - 100, y: Math.random() * 200 - 100 });
   };
 
-  useEffect(() => { setPos({ x: 0, y: 0 }); setShowNote(false); }, [i]);
+  useEffect(() => { 
+    setPos({ x: 0, y: 0 }); 
+    setShowNote(false); 
+  }, [i]);
 
-  // Skyshot (Fireworks)
+  // Fireworks Animation - Fixed BSS Memory Error
   useEffect(() => {
     if (done && canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      let particles = []; let rockets = [];
+      let animationFrameId;
+
+      const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      let particles = []; 
+      let rockets = [];
+
       class Rocket {
         constructor() {
-          this.x = Math.random() * canvas.width; this.y = canvas.height;
-          this.speed = 7; this.targetY = Math.random() * (canvas.height * 0.4);
+          this.x = Math.random() * canvas.width; 
+          this.y = canvas.height;
+          this.speed = 6; 
+          this.targetY = Math.random() * (canvas.height * 0.4);
           this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
         }
         update() { this.y -= this.speed; }
-        draw() { ctx.fillStyle = "white"; ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); ctx.fill(); }
+        draw() { 
+          ctx.fillStyle = "white"; 
+          ctx.beginPath(); 
+          ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); 
+          ctx.fill(); 
+        }
       }
+
       class Particle {
         constructor(x, y, color) {
           this.x = x; this.y = y; this.color = color;
-          this.angle = Math.random() * Math.PI * 2; this.velocity = Math.random() * 5 + 3;
-          this.life = 100; this.friction = 0.95; this.gravity = 0.12;
+          this.angle = Math.random() * Math.PI * 2; 
+          this.velocity = Math.random() * 5 + 2;
+          this.life = 100; 
+          this.friction = 0.95; 
+          this.gravity = 0.1;
         }
-        update() { this.velocity *= this.friction; this.x += Math.cos(this.angle) * this.velocity; this.y += Math.sin(this.angle) * this.velocity + this.gravity; this.life -= 1.5; }
-        draw() { ctx.globalAlpha = this.life / 100; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2); ctx.fill(); }
+        update() { 
+          this.velocity *= this.friction; 
+          this.x += Math.cos(this.angle) * this.velocity; 
+          this.y += Math.sin(this.angle) * this.velocity + this.gravity; 
+          this.life -= 1.2; 
+        }
+        draw() { 
+          ctx.globalAlpha = this.life / 100; 
+          ctx.fillStyle = this.color; 
+          ctx.beginPath(); 
+          ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); 
+          ctx.fill(); 
+        }
       }
-      function animate() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.2)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        if (Math.random() < 0.06) rockets.push(new Rocket());
-        rockets.forEach((r, idx) => { r.update(); r.draw(); if (r.y <= r.targetY) { for (let j = 0; j < 50; j++) particles.push(new Particle(r.x, r.y, r.color)); rockets.splice(idx, 1); } });
-        particles.forEach((p, idx) => { p.update(); p.draw(); if (p.life <= 0) particles.splice(idx, 1); });
-        requestAnimationFrame(animate);
-      }
+
+      const animate = () => {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.2)"; 
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        if (Math.random() < 0.05) rockets.push(new Rocket());
+        
+        rockets.forEach((r, idx) => {
+          r.update(); r.draw();
+          if (r.y <= r.targetY) {
+            for (let j = 0; j < 40; j++) particles.push(new Particle(r.x, r.y, r.color));
+            rockets.splice(idx, 1);
+          }
+        });
+
+        particles.forEach((p, idx) => {
+          p.update(); p.draw();
+          if (p.life <= 0) particles.splice(idx, 1);
+        });
+
+        animationFrameId = requestAnimationFrame(animate);
+      };
+
       animate();
+
+      return () => {
+        cancelAnimationFrame(animationFrameId);
+        window.removeEventListener('resize', resizeCanvas);
+      };
     }
   }, [done]);
 
@@ -150,8 +207,8 @@ export default function App() {
                   </>
                 ) : (
                   <div className="final-msg">
-                    <h1 className="neon-text">Hamesha <span>Sath!</span></h1>
-                    <p className="dancing-font final-sub-text">Happy Valentine's Day Shweta.<br />I am Only Yours ❤️<br> Be Mine❤️</p>
+                    <h1 className="neon-text">Hamesha <span>Sath </span> <span>Rhna!</span></h1>
+                    <p className="dancing-font final-sub-text">Happy Valentine's Day Shweta.<br />I am Only Yours ❤️<br />Be Mine❤️</p>
                     <p style={{marginTop: '15px', opacity: 0.8}}>Tum meri life ka sbse best part ho.</p>
                   </div>
                 )}
