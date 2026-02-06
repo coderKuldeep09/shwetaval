@@ -5,13 +5,13 @@ import "./App.css";
 
 const data = [
   { q: "The First Meet 🌸", line: "Kabhi kabhi sochta hoon ki meri life itni khoobsurat kab ho gayi… phir yaad aata hai tum aayi thi 💗 Tum sirf meri pasand nahi ho, tum meri aadat ban chuki ho. Din kaisa bhi ho, agar tumse baat ho jaye na to sab theek lagne lagta hai ✨ Tumhari hasi mere liye therapy hai, aur tumhari awaaz mera sukoon 🫶Mujhe nahi pata pyaar ka perfect definition kya hota hai, par jab main tumhare baare mein soch ke bina wajah smile karne lagta hoon, shayad wahi pyaar hai ❤️ Main future plan nahi karta zyada, par ek cheez pakki hai — jahan meri zindagi hogi, wahan tum zaroor hogi 💍Dil karta hai tumhe har tension se door rakhu, tumhari har choti khushi ka reason banu 🌷 Tum mere liye wo insaan ho jisse baat kiye bina din complete nahi hota 🥺 Aur sach kahu, agar tum saath ho na, to life itni mushkil bhi nahi lagti 💞Bas ek hi wish hai — aise hi saath rahe, haste rahe, ladte rahe, manaate rahe… par kabhi ek dusre ka haath na chhode 🤍 Tum meri lucky charm ho, meri peace ho, aur meri sabse pyari feeling ho 💘...", sticker: "✨" },
-  { q: "8th Nov: The Magic 💍", line: "Ek aisa din jab mere dil ne pehli baar mehsoos kiya ki tum hi woh sukoon ho...", sticker: "💘", isProposal: true, noteTitle: "To My Soulmate, Shweta", noteBody: "Pata hai Shweta, 8th Nov sirf ek date nahi hai, mere liye woh din hai jab meri zindagi ko ek naya maksad mila. Maine tumhare andar ek poori duniya dekhi hai—woh duniya jahan sirf pyaar aur tum ho. ❤️" },
-  { q: "🌹 Rose Day", line: "Ye gulaab meri taraf se ek symbol hai… meri feelings gehri hain.", sticker: "🌹" },
-  { q: "💍 Propose Day", line: "Tumhare sath hrr ek pal ek magic ki trh hai Will you always?", sticker: "💍", hasNoBtn: true, isProposal: true, noteTitle: "A Promise for Life", noteBody: "Main waada karta hoon ki hamesha tumhara hath thame rakhunga, chahe dhoop ho ya chhaon. Kya tum mera sath dogi? ❤️" },
-  { q: "🍫 Chocolate Day", line: "Zindagi ki mithaas tumhare hone se hai.", sticker: "🍫" },
-  { q: "🧸 Teddy Day", line: "Ye teddy meri yaad dilayega jab main paas nahi hounga.", sticker: "🧸" },
-  { q: "🤗 Hug Day", line: "Tumhara hug mera safe place hai. and i always want that peace", sticker: "🫂" },
-  { q: "💋 Kiss Day", line: "Ek ehsaas jo hamesha mere dil mein reh jata hai and jst want always .", sticker: "💋" },
+  { q: "8th Nov: The Magic 💍", line: "Ek aisa din jab mere dil ne pehli baar mehsoos kiya ki tum hi woh sukoon ho...❤️", sticker: "💘", isProposal: true, noteTitle: "To My Soulmate, Shweta", noteBody: "Pata hai Shweta, 8th Nov sirf ek date nahi hai, mere liye woh din hai jab meri zindagi ko ek naya maksad mila. Maine tumhare andar ek poori duniya dekhi hai—woh duniya jahan sirf pyaar aur tum ho. ❤️" },
+  { q: "🌹 Rose Day", line: "Ye gulaab meri taraf se ek symbol hai… meri feelings gehri hain. ❤️", sticker: "🌹" },
+  { q: "💍 Propose Day", line: "Tumhare sath hrr ek pal ek magic ki trh hai Will you always? ❤️", sticker: "💍", hasNoBtn: true, isProposal: true, noteTitle: "A Promise for Life", noteBody: "Main waada karta hoon ki hamesha tumhara hath thame rakhunga, chahe dhoop ho ya chhaon. Kya tum mera sath dogi? ❤️" },
+  { q: "🍫 Chocolate Day", line: "Zindagi ki mithaas tumhare hone se hai. ❤️", sticker: "🍫" },
+  { q: "🧸 Teddy Day", line: "Ye teddy meri yaad dilayega jab main paas nahi hounga. ❤️", sticker: "🧸" },
+  { q: "🤗 Hug Day", line: "Tumhara hug mera safe place hai. and i always want that peace ❤️", sticker: "🫂" },
+  { q: "💋 Kiss Day", line: "Ek ehsaas jo hamesha mere dil mein reh jata hai and jst want always . ❤️", sticker: "💋" },
   { q: "💖 Valentine", line: "Will you be my Valentine, Shweta, meri jaan, meri happiness, meri dunia... will you? ❤️", sticker: "💝", hasNoBtn: true }
 ];
 
