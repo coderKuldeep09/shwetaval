@@ -7,11 +7,11 @@ const data = [
   { q: "The First Meet 🌸", line: "Yaad hai wo pehli mulakat? Jab waqt thak gaya tha lekin meri nazar tumse nahi hati...", sticker: "✨" },
   { q: "8th Nov: The Magic 💍", line: "Ek aisa din jab mere dil ne pehli baar mehsoos kiya ki tum hi woh sukoon ho...", sticker: "💘", isProposal: true, noteTitle: "To My Soulmate, Shweta", noteBody: "Pata hai Shweta, 8th Nov sirf ek date nahi hai, mere liye woh din hai jab meri zindagi ko ek naya maksad mila. Maine tumhare andar ek poori duniya dekhi hai—woh duniya jahan sirf pyaar aur tum ho. ❤️" },
   { q: "🌹 Rose Day", line: "Ye gulaab meri taraf se ek symbol hai… meri feelings gehri hain.", sticker: "🌹" },
-  { q: "💍 Propose Day", line: "Tumhare saath life perfect lagti hai… meri banogi?", sticker: "💍", hasNoBtn: true, isProposal: true, noteTitle: "A Promise for Life", noteBody: "Main waada karta hoon ki hamesha tumhara hath thame rakhunga, chahe dhoop ho ya chhaon. Kya tum mera sath dogi? ❤️" },
+  { q: "💍 Propose Day", line: "Tumhare sath hrr ek pal ek magin ki trh hai Will you always?", sticker: "💍", hasNoBtn: true, isProposal: true, noteTitle: "A Promise for Life", noteBody: "Main waada karta hoon ki hamesha tumhara hath thame rakhunga, chahe dhoop ho ya chhaon. Kya tum mera sath dogi? ❤️" },
   { q: "🍫 Chocolate Day", line: "Zindagi ki mithaas tumhare hone se hai.", sticker: "🍫" },
   { q: "🧸 Teddy Day", line: "Ye teddy meri yaad dilayega jab main paas nahi hounga.", sticker: "🧸" },
-  { q: "🤗 Hug Day", line: "Tumhara hug mera safe place hai.", sticker: "🫂" },
-  { q: "💋 Kiss Day", line: "Ek ehsaas jo hamesha dil mein reh jata hai.", sticker: "💋" },
+  { q: "🤗 Hug Day", line: "Tumhara hug mera safe place hai. and i always want that peace", sticker: "🫂" },
+  { q: "💋 Kiss Day", line: "Ek ehsaas jo hamesha mere dil mein reh jata hai and jst want always .", sticker: "💋" },
   { q: "💖 Valentine", line: "Will you be my Valentine, Shweta, meri jaan, meri happiness, meri dunia... will you? ❤️", sticker: "💝", hasNoBtn: true }
 ];
 
@@ -151,8 +151,8 @@ export default function App() {
                 ) : (
                   <div className="final-msg">
                     <h1 className="neon-text">Hamesha <span>Sath!</span></h1>
-                    <p className="dancing-font final-sub-text">Happy Valentine's Day Shweta.<br />I am Only Yours ❤️</p>
-                    <p style={{marginTop: '15px', opacity: 0.8}}>Tum meri sabse pyari haqeeqat ho.</p>
+                    <p className="dancing-font final-sub-text">Happy Valentine's Day Shweta.<br />I am Only Yours ❤️<br> Be Mine❤️</p>
+                    <p style={{marginTop: '15px', opacity: 0.8}}>Tum meri life ka sbse best part ho.</p>
                   </div>
                 )}
               </motion.div>
